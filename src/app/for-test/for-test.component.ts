@@ -15,16 +15,32 @@ export class ForTestComponent implements OnInit {
     public forTestService: ForTestService
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     console.log(this.forTestService.item);
   }
 
-  calNumber(a: number, b: number) {
+  public calNumber(a: number, b: number) {
     return a + b;
   }
 
-  changeVar(): void {
+  public changeVar(): void {
     this.myFirstVar = 3;
+  }
+
+  public setSomething(val: number): string {
+    let returnValue: string;
+    if (val - this.getRandomValue() < 1) {
+         returnValue = 'Success';
+    } else {
+         returnValue = 'Fail';
+    }
+    return returnValue;
+}
+
+  public getRandomValue(): number {
+    const a = 10;
+    const b = 20;
+    return (a + b) * 2;
   }
 
 }

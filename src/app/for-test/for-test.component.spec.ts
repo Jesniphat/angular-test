@@ -32,4 +32,15 @@ describe('ForTestComponent', () => {
     await component.changeVar();
     await expect(component.myFirstVar).toBe(3);
   });
+
+  it('should return Success from something function', async () => {
+    await spyOn(component, 'getRandomValue').and.returnValue(10);
+    await expect(component.setSomething(10)).toBe('Success');
+  });
+
+  it('should return Fail from something function', async () => {
+    await spyOn(component, 'getRandomValue').and.returnValue(10);
+    await expect(component.setSomething(20)).toBe('Fail');
+  });
+
 });
