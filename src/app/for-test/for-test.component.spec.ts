@@ -2,15 +2,31 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForTestComponent } from './for-test.component';
 
+import { ForTestService } from '../service/for-test.service';
+
 describe('ForTestComponent', () => {
   let component: ForTestComponent;
   let fixture: ComponentFixture<ForTestComponent>;
 
+  const mockTestService = jasmine.createSpyObj('ForTestService', ['getGithubUserDetail']);
+
+  const mockObject = {
+    'public_repos': 3,
+    'public_gists': 0,
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForTestComponent ]
+      declarations: [ ForTestComponent ],
+      providers: [
+        { provide: ForTestService, useValue: mockTestService}
+      ]
     })
     .compileComponents();
+
+    const TestServiceSpyObj = TestBed.get(ForTestService);
+    const mockPromise = new Promise((resolve, reject) => { resolve(mockObject); });
+    TestServiceSpyObj.getGithubUserDetail.and.returnValue(mockPromise);
   }));
 
   beforeEach(() => {
@@ -41,6 +57,16 @@ describe('ForTestComponent', () => {
   it('should return Fail from something function', async () => {
     await spyOn(component, 'getRandomValue').and.returnValue(10);
     await expect(component.setSomething(20)).toBe('Fail');
+  });
+
+  it('should return True from isPublicRepoGreaterThan function', (async() => {
+    const result = await component.isPublicRepoGreaterThan(1);
+    expect(result).toBe(true);
+  }));
+
+  it('should return False from isPublicRepoGreaterThan function', async () => {
+    const result = await component.isPublicRepoGreaterThan(10);
+    expect(result).toBe(false);
   });
 
 });

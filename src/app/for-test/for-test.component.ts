@@ -11,12 +11,13 @@ export class ForTestComponent implements OnInit {
 
   public myFirstVar = 1;
 
+  public testData: any;
+
   constructor(
     public forTestService: ForTestService
   ) { }
 
   public ngOnInit() {
-    console.log(this.forTestService.item);
   }
 
   public calNumber(a: number, b: number) {
@@ -35,12 +36,23 @@ export class ForTestComponent implements OnInit {
          returnValue = 'Fail';
     }
     return returnValue;
-}
+  }
 
   public getRandomValue(): number {
     const a = 10;
     const b = 20;
     return (a + b) * 2;
+  }
+
+  public async isPublicRepoGreaterThan(val: number): Promise<boolean> {
+    let returnValue: boolean;
+    this.testData = await this.forTestService.getGithubUserDetail();
+    if (this.testData.public_repos > val) {
+      returnValue = true;
+    } else {
+      returnValue = false;
+    }
+    return returnValue;
   }
 
 }

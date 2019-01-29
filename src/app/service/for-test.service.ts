@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AppModule } from '../app.module';
-import { NewTestModule } from '../new-test/new-test.module';
-import { ForTestModule } from '../for-test/for-test.module';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,36 @@ export class ForTestService {
 
   item = {};
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  getItems() {
-    return [];
+
+  public async getGithubUserDetail(): Promise<any> {
+    const responst = await this.http.get('https://api.github.com/users/Jesniphat')
+                          .pipe(catchError(this.handleError<any>('Get git user detail')))
+                          .toPromise();
+    return responst || {};
   }
 
-  getItem() {
-    return this.item;
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
+
 }
