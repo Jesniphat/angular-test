@@ -64,9 +64,10 @@ describe('ForTestComponent', () => {
     expect(result).toBe(true);
   }));
 
-  it('should return False from isPublicRepoGreaterThan function', async () => {
+  it('should return False from isPublicRepoGreaterThan function', async (done) => {
     const result = await component.isPublicRepoGreaterThan(10);
     expect(result).toBe(false);
+    await done();
   });
 
 });
