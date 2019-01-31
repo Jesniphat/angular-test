@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForTestComponent } from './for-test.component';
 
 import { ForTestService } from '../service/for-test.service';
+import { Observable, of } from 'rxjs';
 
 describe('ForTestComponent', () => {
   let component: ForTestComponent;
@@ -25,7 +26,7 @@ describe('ForTestComponent', () => {
     .compileComponents();
 
     const TestServiceSpyObj = TestBed.get(ForTestService);
-    const mockPromise = new Promise((resolve, reject) => { resolve(mockObject); });
+    const mockPromise: Observable<any> = of(mockObject);
     TestServiceSpyObj.getGithubUserDetail.and.returnValue(mockPromise);
   }));
 

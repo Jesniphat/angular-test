@@ -15,12 +15,11 @@ export class ForTestService {
   ) { }
 
 
-  public async getGithubUserDetail(): Promise<any> {
-    const responst = await this.http.get('https://api.github.com/users/Jesniphat')
-                          .pipe(catchError(this.handleError<any>('Get git user detail')))
-                          .toPromise();
-    return responst || {};
+  public getGithubUserDetail(): Observable<any> {
+    return this.http.get('https://api.github.com/users/Jesniphat')
+                          .pipe(catchError(this.handleError<any>('Get git user detail')));
   }
+
 
   /**
    * Handle Http operation that failed.

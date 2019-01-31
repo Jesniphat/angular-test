@@ -46,7 +46,7 @@ export class ForTestComponent implements OnInit {
 
   public async isPublicRepoGreaterThan(val: number): Promise<boolean> {
     let returnValue: boolean;
-    this.testData = await this.forTestService.getGithubUserDetail();
+    this.testData = await this.forTestService.getGithubUserDetail().toPromise();
     if (this.testData.public_repos > val) {
       returnValue = true;
     } else {
